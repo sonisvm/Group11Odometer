@@ -77,10 +77,23 @@ int previousReading(int reading, int numOfDigits)
     return reading;
 }
 
+int distance(int reading1, int reading2, int numOfDigits)
+{
+	int count=0;
+	int next = nextReading(reading1, numOfDigits);
+	while(next!=reading2)
+	{
+		count++;
+		next = nextReading(next, numOfDigits);
+	}
+	return count;
+}
+
 int main()
 {
 	int currReading, numOfDigits;
 	cin>>numOfDigits>>currReading;
 	cout<<"Previous Reading: "<<previousReading(currReading, numOfDigits)<<endl;
 	cout<<"Next Reading: "<<nextReading(currReading, numOfDigits)<<endl;
+	cout<<"Distance: "<<distance(123456, 123459, 6);
 }
