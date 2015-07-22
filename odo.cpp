@@ -3,11 +3,18 @@ using namespace std;
 
 bool isCorrect(int reading)
 {
-	for(int n=reading/10, r=reading%10; n>0; n/=10, r=n%10)
+	int num = reading;
+	int prev_digit = num % 10;
+	while(num>0)
 	{
-		if(n%10>r) return false;
-	}
-	return true;		
+		num /= 10;
+		if(num%10 >= prev_digit )
+		{
+			return false;
+		}
+		prev_digit = num % 910;
+	}	
+	return true;	
 }
 
 int smallestNum(int numOfDigits)
@@ -42,14 +49,15 @@ int nextReading(int reading, int numOfDigits)
 {
     int lowerBound = smallestNum(numOfDigits);
     int upperBound = largestNum(numOfDigits);
-    if (reading == upperBound)
-	{
-        return lowerBound;
-    }
-    while(isCorrect(reading) && reading < upperBound)
+    reading++;
+    while(!isCorrect(reading) && reading < upperBound)
 	{
         reading++;
     }    
+    if (reading >= upperBound)
+	{
+        return lowerBound;
+    }
     return reading;
 }
 
@@ -57,21 +65,22 @@ int previousReading(int reading, int numOfDigits)
 {
     int lowerBound = smallestNum(numOfDigits);
     int upperBound = largestNum(numOfDigits);
-    if (reading == lowerBound)
-	{
-        return upperBound;
-    }
-    while(isCorrect(reading) && reading > lowerBound)
+    reading--;
+    while(!isCorrect(reading) && reading > lowerBound)
 	{
         reading--;
+    }
+    if (reading <= lowerBound)
+	{
+        return upperBound;
     }
     return reading;
 }
 
 int main()
 {
-	int currReading, noOfDigits;
-	cin>>noOfDigits>>currReading;
+	int currReading, numOfDigits;
+	cin>>numOfDigits>>currReading;
 	cout<<"Previous Reading: "<<previousReading(currReading, numOfDigits)<<endl;
 	cout<<"Next Reading: "<<nextReading(currReading, numOfDigits)<<endl;
 }
